@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستند تعاملی: سفیر پدافند غیرعامل</title>
+    <link href="https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.css" rel="stylesheet" type="text/css" />
+    <style>
+        /* --- استایل‌های کلی و متغیرها --- */
+        :root {
+            --primary: #1a5b46;
+            --primary-light: #2ecc71;
+            --accent: #f1c40f;
+            --danger: #e74c3c;
+            --bg-dark: #0f172a;
+            --bg-card: rgba(255, 255, 255, 0.95);
+            --text-dark: #2c3e50;
+            --shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Vazir', sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- کانتینر اصلی --- */
+        .app-container {
+            width: 100%;
+            max-width: 650px;
+            background: var(--bg-card);
+            border-radius: 25px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            animation: slideUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- هدر --- */
+        .header {
+            background: linear-gradient(135deg, var(--primary), #0d3b2e);
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 1.6rem;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* --- نوار پیشرفت --- */
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-light), var(--accent));
+            width: 0%;
+            transition: width 0.6s ease;
+            border-radius: 0 5px 5px 0;
+        }
+
+        /* --- ناحیه محتوا --- */
+        .content {
+            padding: 35px 30px;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .story-text {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            text-align: justify;
+            margin-bottom: 30px;
+            animation: fadeIn 0.6s ease;
+            color: #34495e;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* --- دکمه‌های انتخاب --- */
+        .choices {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .btn-choice {
+            background: white;
+            border: 2px solid #e0e6ed;
+            color: var(--text-dark);
+            padding: 16px 20px;
+            border-radius: 15px;
+            font-family: 'Vazir', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: right;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+
+        .btn-choice:hover {
+            border-color: var(--primary-light);
+            background: #f0fdf4;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(46, 204, 113, 0.15);
+            color: var(--primary);
+        }
+
+        .btn-choice::before {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 5px;
+            background: var(--primary-light);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .btn-choice:hover::before {
+            transform: scaleY(1);
+        }
+
+        /* --- استایل کارنامه و نشان --- */
+        .certificate {
+            display: none;
+            text-align: center;
+            animation: zoomIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 20px;
+            border: 2px solid var(--accent);
+            border-radius: 20px;
+            background: linear-gradient(135deg, #ffffff, #fff9e6);
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .certificate::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(241, 196, 15, 0.1) 0%, transparent 60%);
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .badge-icon {
+            font-size: 5rem;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 15px rgba(241, 196, 15, 0.8));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .certificate h2 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        .certificate .name {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin: 15px 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-bottom: 2px dashed #ccc;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        .certificate p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .btn-restart {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-family: 'Vazir', sans-serif;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(26, 91, 70, 0.3);
+        }
+
+        .btn-restart:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
+        /* --- فرم ورود نام --- */
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .input-group input {
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-family: 'Vazir', sans-serif;
+            font-size: 1rem;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--primary-light);
+        }
+
+        .btn-start {
+            background: var(--primary-light);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Vazir', sans-serif;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-start:hover {
+            background: #27ae60;
+        }
+
+        @media (max-width: 480px) {
+            .content { padding: 25px 20px; }
+            .header h1 { font-size: 1.3rem; }
+            .story-text { font-size: 1rem; }
+            .btn-choice { font-size: 0.9rem; padding: 14px; }
+            .badge-icon { font-size: 4rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <div class="header">
+            <h1>🛡️ سفیر پدافند غیرعامل</h1>
+            <p>مستند تعاملی هفته پدافند غیرعامل ۱۴۰۵</p>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+        </div>
+
+        <div class="content" id="contentArea">
+            <!-- محتوا به صورت داینامیک بارگذاری می‌شود -->
+        </div>
+    </div>
+
+    <script>
+        // --- داده‌های مستند تعاملی (سناریو) ---
+        const storyData = {
+            // مرحله ۰: خوش‌آمدگویی و دریافت نام
+            intro: {
+                text: "به مستند تعاملی «سفیر پدافند» خوش آمدید! در این مستند، شما در موقعیت‌های مختلفی قرار می‌گیرید که باید تصمیم بگیرید. تصمیمات شما سرنوشت مستند را تغییر می‌دهد. لطفاً نام خود را وارد کنید تا کارنامه نهایی به نام شما صادر شود.",
+                isIntro: true
+            },
+            start: {
+                text: "⏰ ساعت ۱۰ صبح، زنگ تفریح. ناگهان برق کل مدرسه قطع می‌شود و سیستم‌های سالن رایانه از کار می‌افتند. همهمه‌ای بین دانش‌آموزان می‌افتد. به عنوان سفیر پدافند، اولین اقدام شما چیست؟",
+                choices: [
+                    { text: "🏃‍♂️ با عجله به سمت سالن رایانه می‌دوم تا ببینم چه شده.", next: "q1_bad" },
+                    { text: "🧘‍♂️ آرامش خود را حفظ می‌کنم و به مسئول مدرسه اطلاع می‌دهم.", next: "q1_good" },
+                    { text: "📱 با گوشی خود به اینترنت وصل می‌شوم و در مورد قطعی برق جستجو می‌کنم.", next: "q1_cyber" }
+                ]
+            },
+            // مسیرهای مرحله ۱
+            q1_bad: {
+                text: "شما با هیجان وارد سالن شدید. متوجه می‌شوید که یک پیام مشکوک روی صفحه مانیتورها ظاهر شده است. شما با این کار ممکن است به اطلاعات حساس دست بزنید و یا شاهد صحنه‌ای باشید که برایتان خطرناک است. پدافند غیرعامل می‌گوید: «در مواقع بحران، اولویت با حفظ آرامش و عدم دستکاری تجهیزات است.»",
+                choices: [{ text: "برمی‌گردم و به مدیر اطلاع می‌دهم.", next: "q1_good" }]
+            },
+            q1_cyber: {
+                text: "جستجو در اینترنت در زمان بحران، ممکن است شما را با اخبار نادرست و شایعات مواجه کند (جنگ شناختی). دشمن سعی می‌کند با اطلاعات غلط، ذهن ما را مشوش کند. بهتر بود ابتدا به مسئولین مدرسه اطلاع می‌دادید.",
+                choices: [{ text: "گوشی را کنار می‌گذارم و به مدیر اطلاع می‌دهم.", next: "q1_good" }]
+            },
+            q1_good: {
+                text: "✅ آفرین! شما با حفظ آرامش و اطلاع‌رسانی سریع، از ایجاد ترس و هرج و مرج جلوگیری کردید. مدیر از شما می‌خواهد که به عنوان سفیر پدافند، به بچه‌ها کمک کنید تا به سالن اجتماعات بروند. اما در راهرو، چند دانش‌آموز مضطرب هستند و نمی‌دانند چه کنند. چه می‌کنید؟",
+                choices: [
+                    { text: "📢 با صدای بلند فریاد می‌زنم: «همه چیز خراب شده! فرار کنید!»", next: "q2_bad" },
+                    { text: "🤝 با آرامش به آن‌ها نزدیک می‌شوم و می‌گویم: «نگران نباشید، مسیر خروج از این طرف است.»", next: "q2_good" }
+                ]
+            },
+            // مسیرهای مرحله ۲
+            q2_bad: {
+                text: "فریاد زدن باعث ترس بیشتر و ایجاد هرج و مرج می‌شود. در پدافند غیرعامل، «مدیریت روانی بحران» بسیار مهم است. شما باید به جای ترساندن، آرامش را به دیگران منتقل کنید. دوباره تلاش کنید.",
+                choices: [{ text: "متوجه اشتباهم شدم. با آرامش به بچه‌ها کمک می‌کنم.", next: "q2_good" }]
+            },
+            q2_good: {
+                text: "✅ عالی! شما با نشان دادن مسیر خروج اضطراری، به تخلیه امن کمک کردید. اکنون همه در سالن اجتماعات هستند. در این لحظه، یکی از دانش‌آموزان می‌گوید: «من شنیدم که یک حمله سایبری به مدرسه شده!» و این خبر به سرعت در حال پخش شدن است. شما چه کار می‌کنید؟",
+                choices: [
+                    { text: "🗣️ من هم به دیگران می‌گویم که حمله سایبری شده و همه باید گوشی‌هایشان را خاموش کنند.", next: "q3_rumor" },
+                    { text: "🛑 جلوی شایعه را می‌گیرم و می‌گویم: «تا اطلاعات دقیق از مسئولین نگیریم، هیچ خبری را تایید یا تکذیب نکنیم.»", next: "q3_good" }
+                ]
+            },
+            // مرحله ۳: جنگ شناختی
+            q3_rumor: {
+                text: "پخش شایعه، خود یک نوع «جنگ شناختی» است. شما بدون مدرک، خبری را تایید کردید. این کار باعث ترس بیشتر می‌شود. پدافند غیرعامل تاکید دارد که در مواقع بحران، تنها به منابع رسمی اعتماد کنید.",
+                choices: [{ text: "جلوی شایعه را می‌گیرم و به منابع رسمی ارجاع می‌دهم.", next: "q3_good" }]
+            },
+            q3_good: {
+                text: "✅ درست است! شما با جلوگیری از شایعه‌پراکنی، به حفظ آرامش کمک کردید. اکنون مدیر از شما می‌خواهد که به عنوان نماینده دانش‌آموزان، در مورد علت قطعی برق از مسئول فنی مدرسه سوال بپرسید. مسئول فنی می‌گوید: «به نظر می‌رسد یک حمله سایبری به سیستم برق مدرسه شده است.» شما چه پیشنهادی می‌دهید؟",
+                choices: [
+                    { text: "🔌 پیشنهاد می‌دهم که همه دستگاه‌های برقی را از پریز بکشیم و منتظر تیم فنی بمانیم.", next: "q4_good" },
+                    { text: "💻 پیشنهاد می‌دهم که خودم سعی کنم با کامپیوتر، سیستم برق را هک کنم و درستش کنم.", next: "q4_bad" }
+                ]
+            },
+            // مرحله ۴: امنیت سایبری و منابع
+            q4_bad: {
+                text: "دستکاری غیرمجاز در سیستم‌ها در زمان بحران، نه تنها خطرناک است بلکه می‌تواند به اطلاعات آسیب برساند. در پدافند غیرعامل، «عدم دخالت غیرمتخصص» یک اصل است. شما باید اجازه دهید تیم متخصص کار خود را انجام دهد.",
+                choices: [{ text: "متوجه شدم. دستگاه‌ها را از پریز می‌کشم و منتظر می‌مانم.", next: "q4_good" }]
+            },
+            q4_good: {
+                text: "✅ عالی! شما با پیشنهاد منطقی، از آسیب بیشتر جلوگیری کردید. در این بین، متوجه می‌شوید که یکی از دانش‌آموزان به دلیل ترس و اضطراب، حالش بد شده است. چه می‌کنید؟",
+                choices: [
+                    { text: "🚑 به کمک او می‌روم، اورژانس را خبر می‌کنم و تا رسیدن آنها کنارش می‌مانم.", next: "q5_good" },
+                    { text: "😐 کاری نمی‌کنم، چون فکر می‌کنم خودش خوب می‌شود.", next: "q5_bad" }
+                ]
+            },
+            // مرحله ۵: کمک‌های اولیه و همدلی
+            q5_bad: {
+                text: "بی‌توجهی به هم‌کلاسی در شرایط بحرانی، نشانه عدم مسئولیت‌پذیری است. در پدافند غیرعامل، «همدلی و کمک به همنوع» یکی از اصول اساسی است. شما باید به او کمک می‌کردید.",
+                choices: [{ text: "به سمت او می‌روم و کمکش می‌کنم.", next: "q5_good" }]
+            },
+            q5_good: {
+                text: "✅ آفرین! شما با کمک به هم‌کلاسی، روحیه همدلی را نشان دادید. اکنون همه چیز آرام شده و تیم فنی در حال رفع مشکل است. مدیر از شما می‌خواهد که در جمع بچه‌ها، یک نکته آموزشی در مورد پدافند غیرعامل بگویید. کدام نکته را انتخاب می‌کنید؟",
+                choices: [
+                    { text: "📚 «همیشه به منابع رسمی اعتماد کنید و اخبار را از کانال‌های معتبر دنبال کنید.»", next: "end_gold" },
+                    { text: "🔋 «در مواقع بحران، مدیریت مصرف انرژی و منابع، بسیار مهم است.»", next: "end_silver" }
+                ]
+            },
+            // پایان‌ها
+            end_gold: {
+                isEnd: true,
+                badgeIcon: "🏅",
+                badgeTitle: "مدال طلایی سفیر پدافند",
+                text: "شما با انتخاب‌های هوشمندانه، نشان دادید که یک سفیر واقعی پدافند غیرعامل هستید. شما یاد گرفتید که در بحران، آرامش، اطلاع‌رسانی صحیح، تخلیه امن، جلوگیری از شایعه، عدم دخالت غیرمتخصص و همدلی، کلید موفقیت است.",
+                medalColor: "#f1c40f"
+            },
+            end_silver: {
+                isEnd: true,
+                badgeIcon: "🥈",
+                badgeTitle: "مدال نقره‌ای سفیر پدافند",
+                text: "شما عملکرد خوبی داشتید، اما در برخی موارد می‌توانستید بهتر تصمیم بگیرید. نکته‌ای که انتخاب کردید (مدیریت مصرف) نیز بسیار مهم است. با تمرین بیشتر، می‌توانید به مدال طلایی برسید!",
+                medalColor: "#bdc3c7"
+            }
+        };
+
+        // --- متغیرهای برنامه ---
+        let currentStep = 'intro';
+        let studentName = "";
+        let progress = 0;
+        const totalSteps = 7; // تعداد مراحل اصلی
+
+        // --- المان‌های DOM ---
+        const contentArea = document.getElementById('contentArea');
+        const progressBar = document.getElementById('progressBar');
+
+        // --- توابع ---
+        function updateProgress() {
+            if (currentStep === 'intro') {
+                progressBar.style.width = '0%';
+            } else if (storyData[currentStep].isEnd) {
+                progressBar.style.width = '100%';
+            } else {
+                progress += (100 / totalSteps);
+                if (progress > 95) progress = 95;
+                progressBar.style.width = progress + '%';
+            }
+        }
+
+        function renderStep(stepKey) {
+            const step = storyData[stepKey];
+            if (!step) return;
+
+            updateProgress();
+            let html = '';
+
+            if (step.isIntro) {
+                // صفحه دریافت نام
+                html = `
+                    <div class="story-text">${step.text}</div>
+                    <div class="input-group">
+                        <input type="text" id="nameInput" placeholder="نام و نام خانوادگی خود را وارد کنید" />
+                        <button class="btn-start" onclick="startStory()">شروع مستند</button>
+                    </div>
+                `;
+            } else if (step.isEnd) {
+                // صفحه کارنامه نهایی
+                html = `
+                    <div class="certificate" style="display:block; border-color: ${step.medalColor};">
+                        <div class="badge-icon" style="filter: drop-shadow(0 0 20px ${step.medalColor});">${step.badgeIcon}</div>
+                        <h2>کارنامه رسمی مستند</h2>
+                        <div class="name">${studentName}</div>
+                        <h3 style="color: ${step.medalColor}; margin-bottom: 15px;">${step.badgeTitle}</h3>
+                        <p>${step.text}</p>
+                        <button class="btn-restart" onclick="restart()">🔄 اجرای دوباره مستند</button>
+                    </div>
+                `;
+            } else {
+                // صفحه سوالات و انتخاب‌ها
+                html = `<div class="story-text">${step.text}</div><div class="choices">`;
+                step.choices.forEach(choice => {
+                    html += `<button class="btn-choice" onclick="makeChoice('${choice.next}')">${choice.text}</button>`;
+                });
+                html += `</div>`;
+            }
+
+            contentArea.innerHTML = html;
+        }
+
+        function startStory() {
+            const nameInput = document.getElementById('nameInput').value.trim();
+            if (nameInput === "") {
+                alert("لطفاً نام خود را وارد کنید تا کارنامه به نام شما صادر شود.");
+                return;
+            }
+            studentName = nameInput;
+            currentStep = 'start';
+            progress = 0;
+            renderStep(currentStep);
+        }
+
+        function makeChoice(nextStep) {
+            currentStep = nextStep;
+            renderStep(currentStep);
+        }
+
+        function restart() {
+            currentStep = 'intro';
+            studentName = "";
+            progress = 0;
+            progressBar.style.width = '0%';
+            renderStep(currentStep);
+        }
+
+        // --- شروع برنامه ---
+        renderStep(currentStep);
+    </script>
+</body>
+</html>
